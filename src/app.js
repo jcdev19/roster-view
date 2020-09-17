@@ -22,6 +22,16 @@ hbs.registerPartials(partialsPath)
 app.use(express.static(publicDirectoryPath))
 
 
+app.get('', (req, res) => {
+    res.render('index')
+})
+
+app.get('/roster-view', (req, res) => {
+    res.render('index', {
+        shiftData: user(req.query.firstName)
+    })
+})
+
 app.get('/request', (req,res) => {
     if(!req.query.firstName) {
         return res.send({
@@ -29,9 +39,13 @@ app.get('/request', (req,res) => {
         })
     }
     
-    res.send(user(req.query.firstName))
+    res.send({
+       shiftData: user(req.query.firstName)
+    })
     
 })
+
+
 
 
 app.listen(port, () => {
