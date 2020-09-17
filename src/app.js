@@ -23,11 +23,14 @@ app.use(express.static(publicDirectoryPath))
 
 
 app.get('', (req, res) => {
-    res.render('index')
+    res.render('index', {
+        title: "Index page"
+    })
 })
 
 app.get('/roster-view', (req, res) => {
-    res.render('index', {
+    res.render('roster-view', {
+        title: "Roster View",
         shiftData: user(req.query.firstName)
     })
 })
