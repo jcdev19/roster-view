@@ -4,6 +4,8 @@ const hbs = require('hbs')
 const request = require('request')
 const fs = require('fs')
 
+const user = require('../src/utils/getUser')
+
 const app = express()
 const port = process.env.PORT || 3000
 //Define paths for exprewss config
@@ -26,17 +28,7 @@ app.get('/request', (req,res) => {
             error: 'you must add an name'
         })
     }
-    const user = function getUser(name) {
-        const data = JSON.parse(fs.readFileSync('./data/data.json'))
-        console.log(data)
-        console.log(req.query.firstName)
-        console.log(name)
-        const filtered = data.filter(function (entry) {
-            return entry.FirstName === name;
-        });
-        console.log(filtered)
-        return filtered
-    }
+    
     res.send(user(req.query.firstName))
     
 })
