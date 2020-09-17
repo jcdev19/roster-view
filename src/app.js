@@ -1,9 +1,8 @@
 const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
-const geocode = require('./utils/geocode')
-const forecast = require('./utils/forecast')
 const request = require('request')
+const fs = require('fs')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -21,7 +20,26 @@ hbs.registerPartials(partialsPath)
 app.use(express.static(publicDirectoryPath))
 
 
-
+app.get('/request', (req,res) => {
+    if(!req.query.firstName) {
+        return res.send({
+            error: 'you must add an name'
+        })
+    }
+    const user = function getUser(name) {
+        const data = JSON.parse(fs.readFileSync('./data/data.json'))
+        console.log(data)
+        console.log(req.query.firstName)
+        console.log(name)
+        const filtered = data.filter(function (entry) {
+            return entry.FirstName === name;
+        });
+        console.log(filtered)
+        return filtered
+    }
+    res.send(user(req.query.firstName))
+    
+})
 
 
 app.listen(port, () => {
